@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -37,6 +39,22 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="user_id")
+     */
+    private $tickets;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Ticket", mappedBy="assign_to")
+     */
+    private $assign_to;
+
+    public function __construct()
+    {
+        $this->tickets = new ArrayCollection();
+        $this->assign_to = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +137,65 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ticket[]
+     */
+    public function getTicketss(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): self
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets[] = $ticket;
+            $ticket->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): self
+    {
+        if ($this->tickets->contains($ticket)) {
+            $this->tickets->removeElement($ticket);
+            // set the owning side to null (unless already changed)
+            if ($ticket->getUserId() === $this) {
+                $ticket->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ticket[]
+     */
+    public function getAssignTo(): Collection
+    {
+        return $this->assign_to;
+    }
+
+    public function addAssignTo(Ticket $assignTo): self
+    {
+        if (!$this->assign_to->contains($assignTo)) {
+            $this->assign_to[] = $assignTo;
+            $assignTo->addAssignTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignTo(Ticket $assignTo): self
+    {
+        if ($this->assign_to->contains($assignTo)) {
+            $this->assign_to->removeElement($assignTo);
+            $assignTo->removeAssignTo($this);
+        }
 
         return $this;
     }
