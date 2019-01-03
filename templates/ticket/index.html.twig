@@ -3,7 +3,7 @@
 {% block title %}Ticket index{% endblock %}
 
 {% block body %}
-    <h1>Ticket index</h1>
+    <h1>My Tickets</h1>
 
     <table class="table">
         <thead>
@@ -24,7 +24,9 @@
                 <td>{{ ticket.date ? ticket.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('ticket_show', {'id': ticket.id}) }}">show</a>
+                    {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('ticket_edit', {'id': ticket.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
