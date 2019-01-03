@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Message;
 use App\Entity\Ticket;
+use App\Form\MessageType;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use App\Repository\TicketStatusRepository;
@@ -16,6 +18,7 @@ use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @Route("/ticket")
+ * @IsGranted("ROLE_USER")
  */
 class TicketController extends AbstractController
 {
@@ -59,11 +62,43 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="ticket_show", methods="GET")
+     * @Route("/{id}", name="ticket_show", methods="GET|POST")
      */
-    public function show(Ticket $ticket): Response
+    public function show(Request $request, Ticket $ticket): Response
     {
-        return $this->render('ticket/show.html.twig', ['ticket' => $ticket]);
+
+        //check right
+        $isGranted = false;
+        foreach ($ticket->getAssignTo() as $user) {
+            if ($user === $ticket->getUserId()) {
+                $isGranted = true;
+            }
+        }
+        if (!($isGranted || $this->getUser() == $ticket->getUserId()) && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            return $this->redirectToRoute('ticket_index');
+        }
+
+
+        $message = new Message();
+        $form = $this->createForm(MessageType::class, $message);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $ticket->getStatus()->getIsOpen()) {
+            $message
+                ->setUserId($this->getUser())
+                ->setDate(new \DateTime())
+                ->setTicketId($ticket);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($message);
+            $em->flush();
+            $form = $this->createForm(MessageType::class);
+        }
+        $twigParam = [
+            'ticket' => $ticket,
+            'messageForm' => $form->createView(),
+            'messages' => $ticket->getMessages()
+        ];
+        return $this->render('ticket/show.html.twig', $twigParam);
     }
 
     /**

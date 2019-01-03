@@ -12,6 +12,10 @@
                 <td>{{ ticket.date ? ticket.date|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
+                <th>Status</th>
+                <td>{{ ticket.status.name }}</td>
+            </tr>
+            <tr>
                 <th>Subject</th>
                 <td>{{ ticket.subject }}</td>
             </tr>
@@ -21,6 +25,18 @@
             </tr>
         </tbody>
     </table>
+    <hr>
+    {% for message in messages %}
+        <div class="msg">
+            <p>From <strong>{{ message.userId }}</strong> at {{ message.date | date("Y-m-d H:i:s") }}</p>
+            <p class="content">{{ message.content }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+
+    {% if ticket.status.isOpen %}
+        {{ include('ticket/_new_message_form.html.twig') }}
+    {% endif %}
 
     <a href="{{ path('ticket_index') }}">back to list</a>
 
