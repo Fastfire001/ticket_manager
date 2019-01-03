@@ -8,8 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ ticket.id }}</td>
+                <th>Date</th>
+                <td>{{ ticket.date ? ticket.date|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Subject</th>
@@ -18,10 +18,6 @@
             <tr>
                 <th>Content</th>
                 <td>{{ ticket.content }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ ticket.date ? ticket.date|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
