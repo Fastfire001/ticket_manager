@@ -26,7 +26,7 @@ class TicketController extends AbstractController
      */
     public function index(TicketRepository $ticketRepository): Response
     {
-        return $this->render('ticket/index.html.twig', ['tickets' => $ticketRepository->findAll()]);
+        return $this->render('ticket/index.html.twig', ['tickets' => $this->getUser()->getTicketss()]);
     }
 
     /**
@@ -68,6 +68,7 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="ticket_edit", methods="GET|POST")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Ticket $ticket): Response
     {
