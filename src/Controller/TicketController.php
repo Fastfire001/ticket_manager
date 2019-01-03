@@ -89,6 +89,7 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/{id}", name="ticket_delete", methods="DELETE")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Ticket $ticket): Response
     {
