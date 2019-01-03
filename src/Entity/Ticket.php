@@ -19,7 +19,7 @@ class Ticket
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="tickets")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tickets")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user_id;
@@ -35,7 +35,7 @@ class Ticket
     private $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\user", inversedBy="assign_to")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="assign_to")
      */
     private $assign_to;
 
