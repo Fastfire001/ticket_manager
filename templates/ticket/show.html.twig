@@ -27,6 +27,17 @@
                 <th>Content</th>
                 <td>{{ ticket.content }}</td>
             </tr>
+            <tr>
+                <th>assign to</th>
+                <td>
+                    {% for user in ticket.assignTo %}
+                        {{ user.username }}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('ticket_remove_user', {'id': ticket.id, 'user_id': user.id}) }}">remove this user</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
         </tbody>
     </table>
     <hr>

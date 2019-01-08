@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Entity\Ticket;
+use App\Entity\User;
 use App\Form\MessageType;
 use App\Form\TicketAdminType;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use App\Repository\TicketStatusRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,6 +51,19 @@ class TicketController extends AbstractController
         return $this->render('ticket/index.html.twig', ['tickets' => $this->getUser()->getAssignTo(), 'h1' => 'My Assign Ticket']);
     }
 
+    /**
+     * @Route("/{id}/remove-user/{user_id}", name="ticket_remove_user", methods="GET|POST")
+     */
+    public function removeUser(Request $request, TicketRepository $ticketRepository, UserRepository $userRepository): Response
+    {
+        $ticketId = $request->get('id');
+        $userId = $request->get('user_id');
+        $ticket = $ticketRepository->find($ticketId)->removeAssignTo($userRepository->find($userId));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($ticket);
+        $em->flush();
+        return $this->redirectToRoute('ticket_show', ['id' => $ticketId]);
+    }
     /**
      * @Route("/new", name="ticket_new", methods="GET|POST")
      */
