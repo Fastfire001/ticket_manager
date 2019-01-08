@@ -68,13 +68,7 @@ class TicketController extends AbstractController
     {
 
         //check right
-        $isGranted = false;
-        foreach ($ticket->getAssignTo() as $user) {
-            if ($user === $ticket->getUserId()) {
-                $isGranted = true;
-            }
-        }
-        if (!($isGranted || $this->getUser() == $ticket->getUserId()) && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if (!(in_array($this->getUser(), $ticket->getAssignTo()->getValues()) || $this->getUser() == $ticket->getUserId()) && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
             return $this->redirectToRoute('ticket_index');
         }
 
