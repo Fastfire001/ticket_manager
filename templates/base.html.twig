@@ -8,10 +8,14 @@
     <body>
         <nav>
             {% if app.user %}
-                <a href="{{ path('app_logout') }}">Loggout</a>
+                <a href="{{ path('app_logout') }}">Logout</a>
             {% else %}
                 <a href="{{ path('app_login') }}">Login</a>
                 <a href="{{ path('user_registration') }}">Register</a>
+            {% endif %}
+            <a href="{{ path('ticket_index') }}">My Ticket</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('message_index') }}">Messages administration</a>
             {% endif %}
         </nav>
         {% block body %}{% endblock %}
