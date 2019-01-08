@@ -8,17 +8,17 @@
     <body>
         <nav>
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('message_index') }}">Messages Administration</a>
-                <a href="{{ path('ticket_all') }}">Ticket Administration</a>
+                <a href="{{ path('message_index') }}">Messages Administration</a> &nbsp;&nbsp;
+                <a href="{{ path('ticket_all') }}">Ticket Administration</a> &nbsp;&nbsp;
             {% endif %}
-            <a href="{{ path('ticket_new') }}">New Ticket</a>
-            <a href="{{ path('ticket_index') }}">My Ticket</a>
-            <a href="{{ path('ticket_my_assign') }}">My Assign Tickets</a>
+            <a href="{{ path('ticket_new') }}">New Ticket</a> &nbsp;&nbsp;
+            <a href="{{ path('ticket_index') }}">My Ticket</a> &nbsp;&nbsp;
+            <a href="{{ path('ticket_my_assign') }}">My Assign Tickets</a> &nbsp;&nbsp;
             {% if app.user %}
-                <a href="{{ path('app_logout') }}">Logout</a>
+                <a href="{{ path('app_logout') }}">Logout</a> &nbsp;&nbsp;
             {% else %}
-                <a href="{{ path('app_login') }}">Login</a>
-                <a href="{{ path('user_registration') }}">Register</a>
+                <a href="{{ path('app_login') }}">Login</a> &nbsp;&nbsp;
+                <a href="{{ path('user_registration') }}">Register</a> &nbsp;&nbsp;
             {% endif %}
         </nav>
         {% block body %}{% endblock %}
