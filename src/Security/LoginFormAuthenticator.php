@@ -85,7 +85,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-         return new RedirectResponse($this->router->generate('main'));
+         return new RedirectResponse($this->router->generate('ticket_index'));
 //        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

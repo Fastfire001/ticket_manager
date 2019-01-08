@@ -6,6 +6,14 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <nav>
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}">Loggout</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Login</a>
+                <a href="{{ path('user_registration') }}">Register</a>
+            {% endif %}
+        </nav>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

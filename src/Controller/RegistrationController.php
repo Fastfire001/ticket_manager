@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_registration');
+            return $this->redirectToRoute('ticket_index');
         }
 
         return $this->render('registration/register.html.twig', array('form' => $form->createView())
