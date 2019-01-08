@@ -95,7 +95,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="ticket_show", methods="GET|POST")
+     * @Route("/{id}", name="ticket_show", methods="GET|POST", requirements={"id"="\d+"})
      */
     public function show(Request $request, Ticket $ticket): Response
     {

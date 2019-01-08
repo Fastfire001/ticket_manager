@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TicketStatus index{% endblock %}
+
+{% block body %}
+    <h1>TicketStatus index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Is_open</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ticket_status in ticket_statuses %}
+            <tr>
+                <td>{{ ticket_status.id }}</td>
+                <td>{{ ticket_status.name }}</td>
+                <td>{{ ticket_status.isOpen ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('ticket_status_show', {'id': ticket_status.id}) }}">show</a>
+                    <a href="{{ path('ticket_status_edit', {'id': ticket_status.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ticket_status_new') }}">Create new</a>
+{% endblock %}

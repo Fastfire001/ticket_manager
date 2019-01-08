@@ -10,6 +10,7 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('message_index') }}">Messages Administration</a> &nbsp;&nbsp;
                 <a href="{{ path('ticket_all') }}">Ticket Administration</a> &nbsp;&nbsp;
+                <a href="{{ path('ticket_status_index') }}">Status Administration</a>&nbsp;&nbsp;
             {% endif %}
             <a href="{{ path('ticket_new') }}">New Ticket</a> &nbsp;&nbsp;
             <a href="{{ path('ticket_index') }}">My Ticket</a> &nbsp;&nbsp;
