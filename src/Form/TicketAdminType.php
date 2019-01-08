@@ -2,27 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\Message;
+use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Message1Type extends AbstractType
+class TicketAdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('subject')
             ->add('content')
             ->add('date')
             ->add('user_id')
-            ->add('ticket_id')
+            ->add('assign_to')
+            ->add('status')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Message::class,
+            'data_class' => Ticket::class,
         ]);
     }
 }

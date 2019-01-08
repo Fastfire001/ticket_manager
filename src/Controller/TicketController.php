@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\Ticket;
 use App\Form\MessageType;
+use App\Form\TicketAdminType;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use App\Repository\TicketStatusRepository;
@@ -29,12 +30,27 @@ class TicketController extends AbstractController
      */
     public function index(TicketRepository $ticketRepository): Response
     {
-        return $this->render('ticket/index.html.twig', ['tickets' => $this->getUser()->getTicketss()]);
+        return $this->render('ticket/index.html.twig', ['tickets' => $this->getUser()->getTicketss(), 'h1' => 'My Ticket']);
+    }
+
+    /**
+     * @Route("/all", name="ticket_all", methods="GET")
+     */
+    public function allTicket(TicketRepository $ticketRepository): Response
+    {
+        return $this->render('ticket/index.html.twig', ['tickets' => $ticketRepository->findAll(), 'h1' => 'Ticket Administration']);
+    }
+
+    /**
+     * @Route("/my-assign", name="ticket_my_assign", methods="GET")
+     */
+    public function assignTicket(TicketRepository $ticketRepository): Response
+    {
+        return $this->render('ticket/index.html.twig', ['tickets' => $this->getUser()->getAssignTo(), 'h1' => 'My Assign Ticket']);
     }
 
     /**
      * @Route("/new", name="ticket_new", methods="GET|POST")
-     * @IsGranted("ROLE_USER")
      */
     public function new(Request $request, TicketStatusRepository $ticketStatusRepository): Response
     {
@@ -101,7 +117,7 @@ class TicketController extends AbstractController
      */
     public function edit(Request $request, Ticket $ticket): Response
     {
-        $form = $this->createForm(TicketType::class, $ticket);
+        $form = $this->createForm(TicketAdminType::class, $ticket);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

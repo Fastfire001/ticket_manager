@@ -36,7 +36,7 @@
             <p class="content">{{ message.content }}</p>
         </div>
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('message_edit', {'id': message.id, 'route': route}) }}">Edit</a>
+            <a href="{{ path('message_edit', {'id': message.id} ) }}">Edit</a>
         {% endif %}
         <hr>
     {% endfor %}

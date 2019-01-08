@@ -7,15 +7,18 @@
     </head>
     <body>
         <nav>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('message_index') }}">Messages Administration</a>
+                <a href="{{ path('ticket_all') }}">Ticket Administration</a>
+            {% endif %}
+            <a href="{{ path('ticket_new') }}">New Ticket</a>
+            <a href="{{ path('ticket_index') }}">My Ticket</a>
+            <a href="{{ path('ticket_my_assign') }}">My Assign Tickets</a>
             {% if app.user %}
                 <a href="{{ path('app_logout') }}">Logout</a>
             {% else %}
                 <a href="{{ path('app_login') }}">Login</a>
                 <a href="{{ path('user_registration') }}">Register</a>
-            {% endif %}
-            <a href="{{ path('ticket_index') }}">My Ticket</a>
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('message_index') }}">Messages administration</a>
             {% endif %}
         </nav>
         {% block body %}{% endblock %}
