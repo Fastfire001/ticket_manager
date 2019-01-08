@@ -37,6 +37,7 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/all", name="ticket_all", methods="GET")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function allTicket(TicketRepository $ticketRepository): Response
     {
@@ -53,6 +54,7 @@ class TicketController extends AbstractController
 
     /**
      * @Route("/{id}/remove-user/{user_id}", name="ticket_remove_user", methods="GET|POST")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function removeUser(Request $request, TicketRepository $ticketRepository, UserRepository $userRepository): Response
     {

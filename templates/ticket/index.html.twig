@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Status</th>
                 <th>Subject</th>
                 <th>Content</th>
                 <th>Date</th>
@@ -19,6 +20,7 @@
         {% for ticket in tickets %}
             <tr>
                 <td>{{ ticket.id }}</td>
+                <td>{{ ticket.status }}</td>
                 <td>{{ ticket.subject }}</td>
                 <td>{{ ticket.content }}</td>
                 <td>{{ ticket.date ? ticket.date|date('Y-m-d H:i:s') : '' }}</td>
